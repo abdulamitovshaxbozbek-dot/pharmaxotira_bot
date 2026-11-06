@@ -319,8 +319,6 @@
       border-radius: 10px;
     }
 
-    /* RETSEPT TUGMASI */
-
     .prescription-button {
       display: block;
       width: 100%;
@@ -341,8 +339,6 @@
     .return-button:active {
       transform: scale(0.98);
     }
-
-    /* RETSEPTNING ORQA TOMONI */
 
     .prescription-view {
       animation: appear 0.25s ease;
@@ -561,7 +557,7 @@
     .channel-link {
       display: block;
       padding: 12px;
-      margin-bottom: 9px;
+      margin-bottom: 12px;
       border-radius: 10px;
       background: var(--primary);
       color: white;
@@ -570,7 +566,6 @@
       font-weight: 750;
     }
 
-    .channel-link.green { background: #219b68; }
     .verify-btn { width: 100%; margin-top: 5px; }
 
     .footer {
@@ -661,20 +656,15 @@
 
 <div class="modal" id="subModal">
   <div class="modal-content">
-    <h2>📢 Kanallarga a’zo bo‘ling</h2>
+    <h2>📢 Kanalimizga a’zo bo‘ling</h2>
 
     <p class="modal-description">
-      Davom etish uchun quyidagi kanallarning barchasiga a’zo bo‘ling:
+      Davom etish uchun rasmiy kanalimizga a’zo bo‘ling:
     </p>
 
     <a href="https://t.me/fundamedical_academy"
        target="_blank" class="channel-link">
-      1️⃣ @fundamedical_academy
-    </a>
-
-    <a href="https://t.me/MedLife_Official"
-       target="_blank" class="channel-link green">
-      2️⃣ @MedLife_Official
+      📢 @fundamedical_academy
     </a>
 
     <button class="btn btn-secondary verify-btn" onclick="verifySub()">
@@ -695,7 +685,6 @@
   let filteredDrugs = [];
   let currentIndex = 0;
 
-  // Kartochkaning qaysi tomoni ochiqligini saqlaydi.
   let showingPrescription = false;
 
   const cardContainer = document.getElementById("cardContainer");
@@ -836,16 +825,6 @@
     renderCard();
   }
 
-  /*
-    Ma'lumotlarni alohida qatorlarga ajratadi.
-
-    Ajratish belgilari:
-    ;  — nuqtali vergul
-    •  — punkt
-    |  — vertikal chiziq
-    \n — yangi qator
-  */
-
   function splitIntoItems(value) {
     if (!value) return [];
 
@@ -885,8 +864,6 @@
     `;
   }
 
-  // RETSEPT TOMONINI OCHISH
-
   function showPrescription() {
     const drug = filteredDrugs[currentIndex];
 
@@ -896,14 +873,10 @@
     renderCard();
   }
 
-  // DORI MA'LUMOTLARI TOMONIGA QAYTISH
-
   function showDrugInfo() {
     showingPrescription = false;
     renderCard();
   }
-
-  // RETSEPT TOMONINI CHIZISH
 
   function renderPrescriptionCard(drug) {
     const prescription = drug.prescription || {};
@@ -1014,13 +987,11 @@
 
     const drug = filteredDrugs[currentIndex];
 
-    // Agar retsept tomoni tanlangan bo‘lsa, uni ko‘rsatamiz.
     if (showingPrescription && drug.prescription) {
       renderPrescriptionCard(drug);
       return;
     }
 
-    // Agar retsept ma'lumoti mavjud bo‘lmasa, old tomonni ko‘rsatamiz.
     showingPrescription = false;
 
     const name = escapeHTML(getDrugName(drug));
@@ -1048,7 +1019,6 @@
       `;
     }
 
-    // Faqat retsept maydoni mavjud bo‘lgan dorilarda tugma chiqadi.
     const prescriptionButtonHTML = drug.prescription
       ? `
         <button
@@ -1220,9 +1190,7 @@
         document.getElementById("subModal").style.display = "none";
         alert("Rahmat! A'zolik tasdiqlandi.");
       } else {
-        alert(
-          `Siz hali ${data.channel || "kanal"}ga a'zo bo'lmagansiz.`
-        );
+        alert("Siz hali rasmiy kanalimizga a'zo bo'lmagansiz.");
       }
 
     } catch (error) {
