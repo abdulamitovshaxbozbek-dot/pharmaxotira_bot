@@ -13,16 +13,15 @@ from aiogram.exceptions import TelegramBadRequest, TelegramAPIError
 
 DRUGS_FILE = "drugs_database.json"
 
-# Render Environment Variables bo'limidan avtomatik o'qiydi
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
-CHANNELS = ["@fundamedical_academy"]  # Faqat bitta rasmiy kanal qoldirildi
+# Faqat bitta rasmiy kanal qoldirildi
+CHANNELS = ["@fundamedical_academy"]
 WEB_APP_URL = os.getenv("WEB_APP_URL", os.getenv("WEBAPP_URL", "https://pharmaxotira-bot.onrender.com"))
 
 bot = Bot(token=BOT_TOKEN) if BOT_TOKEN else None
 dp = Dispatcher()
 router = Router()
 
-# JSON ma'lumotlarini server ishga tushganda 1 marta xotiraga yuklash (Caching)
 DRUGS_CACHE = []
 
 def load_drugs():
@@ -73,7 +72,6 @@ dp.include_router(router)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Server ishga tushganda dori bazasini xotiraga 1 marta yuklaymiz
     load_drugs()
     
     polling_task = None
@@ -100,7 +98,6 @@ async def read_app():
 
 @app.get("/api/drugs")
 async def get_drugs():
-    # Faylni qayta-qayta o'qimasdan xotiradagi tayyor keshni qaytaradi
     return DRUGS_CACHE
 
 @app.get("/api/check-sub")
@@ -110,7 +107,6 @@ async def check_subscription(user_id: int = Query(...)):
 
     for channel in CHANNELS:
         try:
-            # httpx o'rniga Aiogram'ning rasmiy async bot obyektidan foydalaniladi
             member = await bot.get_chat_member(chat_id=channel, user_id=user_id)
             if member.status not in ["member", "administrator", "creator"]:
                 return {"subscribed": False, "channel": channel}
